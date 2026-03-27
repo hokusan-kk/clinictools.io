@@ -626,7 +626,10 @@
       modal.style.display = "block";
       document.body.classList.add("modal-open");
       currentIndex = 0;
+      slides.style.transition = "none";
       slides.style.transform = "translateX(0)";
+      slides.offsetHeight;
+      slides.style.transition = "transform .35s ease";
     });
 
     // 閉じる処理
@@ -634,20 +637,41 @@
       modal.style.display = "none";
       document.body.classList.remove("modal-open");
     }
+
     closeBtn.addEventListener("click", closeModal);
-    modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
+    modal.addEventListener("click", e => {
+      if (e.target === modal) closeModal();
+    });
 
     // スライド操作
     function updateSlide() {
       slides.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
-    prev.addEventListener("click", () => {
-      currentIndex = (currentIndex - 1 + imgs.length) % imgs.length;
-      updateSlide();
-    });
+
     next.addEventListener("click", () => {
-      currentIndex = (currentIndex + 1) % imgs.length;
-      updateSlide();
+      if (currentIndex === imgs.length - 1) {
+        currentIndex = 0;
+        slides.style.transition = "none";
+        slides.style.transform = "translateX(0)";
+        slides.offsetHeight;
+        slides.style.transition = "transform .35s ease";
+      } else {
+        currentIndex++;
+        updateSlide();
+      }
+    });
+
+    prev.addEventListener("click", () => {
+      if (currentIndex === 0) {
+        currentIndex = imgs.length - 1;
+        slides.style.transition = "none";
+        slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+        slides.offsetHeight;
+        slides.style.transition = "transform .35s ease";
+      } else {
+        currentIndex--;
+        updateSlide();
+      }
     });
   });
 </script>
