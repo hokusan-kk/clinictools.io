@@ -649,29 +649,34 @@
     }
 
     next.addEventListener("click", () => {
-      if (currentIndex === imgs.length - 1) {
-        currentIndex = 0;
-        slides.style.transition = "none";
-        slides.style.transform = "translateX(0)";
-        slides.offsetHeight;
-        slides.style.transition = "transform .35s ease";
-      } else {
-        currentIndex++;
-        updateSlide();
-      }
+  if (currentIndex === imgs.length - 1) {
+
+    // 👇ここ追加（ゆっくり戻る）
+    slides.style.transition = "transform 0.8s ease";
+
+    currentIndex = 0;
+    slides.style.transform = "translateX(0)";
+
+  } else {
+    slides.style.transition = "transform .35s ease"; // 通常スピード
+    currentIndex++;
+    updateSlide();
+  }
     });
 
     prev.addEventListener("click", () => {
-      if (currentIndex === 0) {
-        currentIndex = imgs.length - 1;
-        slides.style.transition = "none";
-        slides.style.transform = `translateX(-${currentIndex * 100}%)`;
-        slides.offsetHeight;
-        slides.style.transition = "transform .35s ease";
-      } else {
-        currentIndex--;
-        updateSlide();
-      }
+  if (currentIndex === 0) {
+
+    slides.style.transition = "transform 0.8s ease";
+
+    currentIndex = imgs.length - 1;
+    slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+  } else {
+    slides.style.transition = "transform .35s ease";
+    currentIndex--;
+    updateSlide();
+  }
     });
   });
 </script>
